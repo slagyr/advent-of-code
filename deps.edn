@@ -1,0 +1,8 @@
+{:paths   ["src"]
+ :deps    {
+           ;com.cleancoders.c3kit/apron       {:mvn/version "1.0.8"}
+           }
+ :aliases {
+           :test {:extra-deps  {speclj/speclj {:mvn/version "3.4.1"}}}
+           :spec {:main-opts ["-m" "speclj.main" "-c"]}
+           }}

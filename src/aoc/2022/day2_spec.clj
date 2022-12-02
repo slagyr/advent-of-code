@@ -1,10 +1,11 @@
 (ns aoc.2022.day2-spec
   (:require [aoc.2022.day2 :as sut]
+            [aoc.core :as core]
             [speclj.core :refer :all]))
 
 (def sample "A Y\nB X\nC Z")
 
-(describe "Day 2: Rock Paper Scissors"
+(describe "2022 Day 2: Rock Paper Scissors"
 
   (it "read guide"
     (let [result (sut/read-guide sample)]
@@ -19,7 +20,7 @@
 
   (it "score total"
     (should= 15 (sut/score-rounds sample))
-    (should= 10624 (sut/score-rounds (slurp "src/aoc/2022/day2-input.txt"))))
+    (should= 10624 (sut/score-rounds (core/input 2022 2))))
 
   (it "read guide correctly"
     (let [result (sut/read-guide-correctly sample)]
@@ -34,6 +35,6 @@
 
   (it "correct score total"
     (should= 12 (sut/score-rounds-correctly sample))
-    (should= 14060 (sut/score-rounds-correctly (slurp "src/aoc/2022/day2-input.txt"))))
+    (should= 14060 (sut/score-rounds-correctly (core/input 2022 2))))
 
   )

@@ -1,10 +1,11 @@
 (ns aoc.2022.day1-spec
   (:require [aoc.2022.day1 :as sut]
+            [aoc.core :as core]
             [speclj.core :refer :all]))
 
 (def sample "1000\n2000\n3000\n\n4000\n\n5000\n6000\n\n7000\n8000\n9000\n\n10000")
 
-(describe "Day 1: Calorie Counting"
+(describe "2022 Day 1: Calorie Counting"
 
   (it "read snacks"
     (let [result (sut/read-snacks sample)]
@@ -16,10 +17,10 @@
 
   (it "max calories"
     (should= 24000 (sut/max-calories sample))
-    (should= 72511 (sut/max-calories (slurp "src/aoc/2022/day1-input.txt"))))
+    (should= 72511 (sut/max-calories (core/input 2022 1))))
 
   (it "top 3 calories"
     (should= 45000 (sut/top-3-calories sample))
-    (should= 212117 (sut/top-3-calories (slurp "src/aoc/2022/day1-input.txt"))))
+    (should= 212117 (sut/top-3-calories (core/input 2022 1))))
 
   )

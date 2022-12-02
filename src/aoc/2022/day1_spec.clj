@@ -16,10 +16,10 @@
 
   (it "max calories"
     (should= 24000 (sut/max-calories sample))
-    (should= 72511 (sut/max-calories (slurp "src/aoc/2022/day-1-input.txt"))))
+    (should= 72511 (sut/max-calories (slurp "src/aoc/2022/day1-input.txt"))))
 
   (it "top 3 calories"
     (should= 45000 (sut/top-3-calories sample))
-    (should= 212117 (sut/top-3-calories (slurp "src/aoc/2022/day-1-input.txt"))))
+    (should= 212117 (sut/top-3-calories (slurp "src/aoc/2022/day1-input.txt"))))
 
   )

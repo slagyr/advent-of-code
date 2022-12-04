@@ -11,3 +11,6 @@
 (defn input [year day]
   (let [filename (format "src/aoc/%d/day%d-input.txt" year day)]
     (slurp filename)))
+
+(defn ->int [s] (Integer/parseInt s))
+(defn ->long [s] (Long/parseLong s))

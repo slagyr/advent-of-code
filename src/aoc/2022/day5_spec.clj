@@ -14,7 +14,7 @@ move 3 from 1 to 3
 move 2 from 2 to 1
 move 1 from 1 to 2")
 
-(describe "2022 Day 5: Title"
+(describe "2022 Day 5: Supply Stacks"
 
   (it "read input"
     (let [[stacks moves] (sut/read-input sample)]

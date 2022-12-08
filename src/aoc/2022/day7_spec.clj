@@ -28,7 +28,7 @@ $ ls
 5626152 d.ext
 7214296 k")
 
-(describe "2022 Day 7: Title"
+(describe "2022 Day 7: No Space Left On Device"
 
   (it "read input"
     (should= {"/" {"a"     {"e"     {"i" 584}

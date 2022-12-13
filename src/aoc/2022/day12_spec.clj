@@ -52,7 +52,7 @@ abdefghi")
 
   (it "solution1"
     (should= 31 (sut/solution1 sample))
-    (should= 352 (sut/solution1 (slurp "src/aoc/2022/day12b-input.txt")))
+    #_(should= 352 (sut/solution1 (slurp "src/aoc/2022/day12b-input.txt")))
     #_(should= 504 (sut/solution1 (core/input 2022 12))))
 
   (it "solution2"

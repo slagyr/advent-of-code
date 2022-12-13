@@ -1,5 +1,6 @@
 (ns aoc.2022.day12
   (:require
+    [aoc.core :as core]
     [clojure.set :as set]
     [clojure.string :as str]))
 
@@ -12,6 +13,8 @@
 
 (defn elevation-at [elevations [x y]]
   (get-in elevations [x y]))
+
+(defn all-coords [height width] (for [x (range 0 height) y (range 0 width)] [x y]))
 
 (defn find-elevation [elevations width height e]
   (->> (for [x (range 0 height) y (range 0 width)] [x y])
@@ -30,30 +33,19 @@
 
 (def neighbor-deltas [[-1 0] [0 -1] [0 1] [1 0]])
 
-(defn valid-neighbor? [{:keys [width height elevations]} elevation [x y]]
+(defn valid-up? [elevations [x y] elevation] (<= (elevation-at elevations [x y]) (inc elevation)))
+(defn valid-down? [elevations [x y] elevation] (>= (elevation-at elevations [x y]) (dec elevation)))
+
+(defn valid-neighbor? [vertical-ok? {:keys [width height elevations]} elevation [x y]]
   (and (< -1 x height)
        (< -1 y width)
-       (<= (elevation-at elevations [x y]) (inc elevation))))
+       (vertical-ok? elevations [x y] elevation)))
 
-(defn neighbors [{:keys [elevations] :as card} [x y]]
-  (let [possible-neighbors (map (fn [[dx dy]] [(+ x dx) (+ y dy)]) neighbor-deltas)]
-    (filter (partial valid-neighbor? card (elevation-at elevations [x y])) possible-neighbors)))
-
-(defn my-shortest-path
-  ([{:keys [start] :as card}] (my-shortest-path card [start] #{start} nil))
-  ([{:keys [end] :as card} path visited best]
-   (let [location (last path)]
-     (if (= location end)
-       path
-       (let [steps   (remove visited (neighbors card location))
-             visited (set/union visited (set steps))]
-         (loop [steps steps best best]
-           (if (empty? steps)
-             best
-             (let [path (my-shortest-path card (conj path (first steps)) visited best)]
-               (if (and path (or (nil? best) (< (count path) (count best))))
-                 (recur (rest steps) path)
-                 (recur (rest steps) best))))))))))
+(defn neighbors
+  ([card coords] (neighbors valid-up? card coords))
+  ([vertical-ok? {:keys [elevations] :as card} [x y]]
+   (let [possible-neighbors (map (fn [[dx dy]] [(+ x dx) (+ y dy)]) neighbor-deltas)]
+     (filter (partial valid-neighbor? vertical-ok? card (elevation-at elevations [x y])) possible-neighbors))))
 
 (defn distance [[x1 y1] [x2 y2]]
   (let [dx (- x1 x2)
@@ -86,38 +78,45 @@
             (reconstruct-path came-from current)
             (recur (disj open-set current) came-from best guess current (neighbors card current))))))))
 
-(defn add-steps [card visited path]
-  (map #(conj path %) (remove visited (neighbors card (last path)))))
+(defn add-steps [neighbors-fn card visited path]
+  (map #(conj path %) (remove visited (neighbors-fn card (last path)))))
 
-(defn breadth-first [{:keys [start end] :as card}]
-  (loop [paths [[start]] visited #{start}]
-    (let [new-paths (mapcat #(add-steps card visited %) paths)
-          new-steps (set (map last new-paths))
-          new-paths (map (fn [step] (first (filter #(= step (last %)) new-paths))) new-steps)
-          visited   (set/union visited new-steps)]
-      (if-let [path (first (filter #(= end (last %)) new-paths))]
-        path
-        (recur new-paths visited)))))
-
-;(def shortest-path my-shortest-path)
-;(def shortest-path a*)
-(def shortest-path breadth-first)
+(defn breadth-first
+  ([{:keys [end] :as card}] (breadth-first card neighbors #(= end %)))
+  ([{:keys [start] :as card } neighbors-fn destination?]
+   (loop [paths [[start]] visited #{start}]
+     (if (empty? paths)
+       (throw (Exception. "no path found"))
+       (let [new-paths (mapcat #(add-steps neighbors-fn card visited %) paths)
+             new-steps (set (map last new-paths))
+             new-paths (map (fn [step] (first (filter #(= step (last %)) new-paths))) new-steps)
+             visited   (set/union visited new-steps)]
+         (if-let [path (first (filter #(destination? (last %)) new-paths))]
+           path
+           (recur new-paths visited)))))))
 
 (defn print-path [{:keys [width height elevations]} path]
   (let [trail (set path)]
     (prn "(count path): " (count path))
     (prn "(count trail): " (count trail))
     (doseq [row (range 0 height)]
-      (doseq [col (range 0 width)]
-        (let [e (elevation-at elevations [row col])
-              c (cond (= 0 e) \S (= 27 e) \E :else (char (+ e 96)))]
-          (if (trail [row col])
-            (print (str "\033[0;32m" c "\033[0m"))
-            (print c))))
-      (print "\n"))))
+      (println (apply str (for [col (range 0 width)]
+                            (let [e (elevation-at elevations [row col])
+                                  c (cond (= 0 e) \S (= 27 e) \E :else (char (+ e 96)))]
+                              (if (trail [row col])
+                                (core/blue c)
+                                (core/gray c)))))))))
 
 (defn solution1 [input]
-  (let [card (read-input input)
-        path (shortest-path card)]
+  (let [{:keys [start end] :as card} (read-input input)
+        path (breadth-first (assoc card :start end) (partial neighbors valid-down?) #(= start %))]
+    ;(prn "path: " path)
+    ;(print-path card path)
+    (dec (count path))))
+
+(defn solution2 [input]
+  (let [{:keys [elevations end] :as card} (read-input input)
+        path (breadth-first (assoc card :start end) (partial neighbors valid-down?) #(= 1 (elevation-at elevations %)))]
+    ;(prn "path: " path)
     ;(print-path card path)
     (dec (count path))))

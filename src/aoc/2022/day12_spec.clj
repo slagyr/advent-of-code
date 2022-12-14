@@ -27,7 +27,9 @@ abdefghi")
       (should= [[0 1] [1 0]] (sut/neighbors card [0 0]))
       (should= [[0 6] [1 7]] (sut/neighbors card [0 7]))
       (should= [[0 1] [1 0] [1 2] [2 1]] (sut/neighbors card [1 1]))
-      (should= [[0 2] [1 1] [2 2]] (sut/neighbors card [1 2]))))
+      (should= [[0 2] [1 1] [2 2]] (sut/neighbors card [1 2]))
+      (should= [[3 7] [4 6]] (sut/neighbors card [4 7]))
+      (should= [[3 0] [4 1]] (sut/neighbors card [4 0]))))
 
   (it "neighbors down"
     (let [card (sut/read-input sample)]
@@ -53,6 +55,7 @@ abdefghi")
   (it "solution1"
     (should= 31 (sut/solution1 sample))
     #_(should= 352 (sut/solution1 (slurp "src/aoc/2022/day12b-input.txt")))
+    #_(should= 408 (sut/solution1 (slurp "src/aoc/2022/day12c-input.txt")))
     #_(should= 504 (sut/solution1 (core/input 2022 12))))
 
   (it "solution2"

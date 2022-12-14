@@ -108,8 +108,9 @@
                                 (core/gray c)))))))))
 
 (defn solution1 [input]
-  (let [{:keys [start end] :as card} (read-input input)
+  (let [{:keys [start end elevations] :as card} (read-input input)
         path (breadth-first (assoc card :start end) (partial neighbors valid-down?) #(= start %))]
+       ;(doseq [e elevations] (prn "e: " e))
     ;(prn "path: " path)
     ;(print-path card path)
     (dec (count path))))

@@ -83,5 +83,4 @@
   (let [valves   (read-input input)
         best-sim (breadth-first valves start-sim-double 26)]
     ;(prn "best-sim: " best-sim)
-    (:relief best-sim))
-  )
+    (:relief best-sim)))

@@ -5,6 +5,6 @@
            }
  :aliases {
            :test {:extra-deps {speclj/speclj {:mvn/version "3.4.1"}}}
-           :spec {:main-opts ["-m" "speclj.main" "-c"]}
+           :spec {:main-opts ["-m" "speclj.main" "-c"] }
            :new  {:main-opts ["-m" "aoc.new"]}
            }}

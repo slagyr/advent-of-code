@@ -27,17 +27,38 @@
 
 (def src-template
   "(ns aoc.<year>.day<day>
-  (:require [aoc.core :as core]))")
+  (:require [aoc.core :as core]))
+
+(defn read-input [input]
+  )
+
+(defn solution1 [input]
+  )
+
+(defn solution2 [input]
+  )")
 
 (def spec-template
   "(ns aoc.<year>.day<day>-spec
    (:require [aoc.<year>.day<day> :as sut]
              [speclj.core :refer :all]))
 
+(def sample
+  \"blah\")
+
 (describe \"<year> Day <day>: Title\"
 
-  (it \"something\"
-    (should= 1 2))
+  (it \"read-input\"
+    (let [result (sut/read-input sample)]
+      ))
+
+  #_(it \"solution 1\"
+    (should= 42 (sut/solution1 sample))
+    (should= 0 (sut/solution1 (core/input <year> <day>))))
+
+  #_(it \"solution 2\"
+    (should= 42 (sut/solution2 sample))
+    (should= 0 (sut/solution2 (core/input <year> <day>))))
 
 )")
 

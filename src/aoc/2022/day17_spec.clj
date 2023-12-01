@@ -150,7 +150,7 @@
   ;      (prn "answer: " answer)
   ;      )))
 
-  (it "solution 2"
+  #_(it "solution 2"
     #_(should= 3068 (sut/solution2 sample 2022) 1000)
     #_(should= 1514285714288 (sut/solution2 sample 1000000000000 1000))
     #_(should= 3219 (sut/solution2 (core/input 2022 17) 2022 10000))

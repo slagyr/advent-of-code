@@ -66,7 +66,10 @@
   (-> (str/replace template "<year>" (str year))
       (str/replace "<day>" (str day))))
 
-(defn -main [& args]
+(defn -main
+  "Usage:
+    clj -M:new <year> <day>"
+  [& args]
   (when-let [[year day] (parse-args args)]
     (println (format "Generating files for year %d, day %d" year day))
     (let [src-file   (format "src/aoc/%d/day%d.clj" year day)

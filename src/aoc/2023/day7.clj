@@ -28,35 +28,19 @@
     1
     (get card-values card)))
 
-(defn hand-type-normal [hand]
-  (let [freqs  (frequencies hand)
-        counts (sort (vals freqs))
-        m      (apply max counts)]
-    (cond (= 5 m) :five-of-a-kind
-          (= 4 m) :four-of-a-kind
-          (= [2 3] counts) :full-house
-          (= 3 m) :three-of-a-kind
-          (= [1 2 2] counts) :two-pair
-          (= 2 m) :one-pair
-          :else :high-card)))
-
-(defn hand-type-jokers-wild [hand]
-  (let [freqs  (frequencies hand)
-        jacks (get freqs \J 0)
-        counts (sort (vals (dissoc freqs \J)))
-        m      (+ (if (seq counts) (apply max counts) 0) jacks)]
-    (cond (= 5 m) :five-of-a-kind
-          (= 4 m) :four-of-a-kind
-          (or (= [2 3] counts) (and (= 3 m) (= [2 2] counts))) :full-house
-          (= 3 m) :three-of-a-kind
-          (= [1 2 2] counts) :two-pair
-          (= 2 m) :one-pair
-          :else :high-card)))
-
 (defn hand-type [hand]
-  (if jokers-wild?
-    (hand-type-jokers-wild hand)
-    (hand-type-normal hand)))
+  (let [freqs  (frequencies hand)
+        jokers (if jokers-wild? (get freqs \J 0) 0)
+        freqs (if jokers-wild? (dissoc freqs \J) freqs)
+        counts (sort (vals freqs))
+        m      (+ (if (seq counts) (apply max counts) 0) jokers)]
+    (cond (= 5 m) :five-of-a-kind
+          (= 4 m) :four-of-a-kind
+          (or (= [2 3] counts) (and jokers-wild? (= 3 m) (= [2 2] counts))) :full-house
+          (= 3 m) :three-of-a-kind
+          (= [1 2 2] counts) :two-pair
+          (= 2 m) :one-pair
+          :else :high-card)))
 
 (def type-value {:high-card       0
                  :one-pair        1

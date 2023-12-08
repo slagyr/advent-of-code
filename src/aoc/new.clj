@@ -44,7 +44,8 @@
              [speclj.core :refer :all]))
 
 (def sample
-  \"blah\")
+  (str
+    \"blah\"))
 
 (describe \"<year> Day <day>: Title\"
 

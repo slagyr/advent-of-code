@@ -31,11 +31,6 @@
       (should= true (sut/adjacent? p1 p3))
       (should= false (sut/adjacent? p2 p3))))
 
-  (it "neighbors-coords"
-    (should= [[0 0] [0 1] [0 2]
-              [1 0] [1 2]
-              [2 0] [2 1] [2 2]] (sut/neighbor-coords [1 1])))
-
   (it "solution 1"
     (should= 4361 (sut/solution1 sample))
     (should= 525119 (sut/solution1 (core/input 2023 3))))

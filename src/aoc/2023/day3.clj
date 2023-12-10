@@ -1,16 +1,17 @@
 (ns aoc.2023.day3
-  (:require [clojure.set :as set]
+  (:require [aoc.core :as core]
+            [clojure.set :as set]
             [clojure.string :as str]))
 
 (def digit-chars #{\0 \1 \2 \3 \4 \5 \6 \7 \8 \9})
 
-(def neighbor-deltas [[-1 -1] [-1 0] [-1 1]
-                      [0 -1] [0 1]
-                      [1 -1] [1 0] [1 1]])
-
-(defn neighbor-coords [[row col]]
-  (for [[dr dc] neighbor-deltas]
-    [(+ row dr) (+ col dc)]))
+;(def neighbor-deltas [[-1 -1] [-1 0] [-1 1]
+;                      [0 -1] [0 1]
+;                      [1 -1] [1 0] [1 1]])
+;
+;(defn neighbor-coords [[row col]]
+;  (for [[dr dc] neighbor-deltas]
+;    [(+ row dr) (+ col dc)]))
 
 (def new-part {:kind :part-number :coordinates [] :buffer []})
 
@@ -43,7 +44,7 @@
 
 (defn optimize-part [part]
   (-> (update part :coordinates set)
-      (assoc :neighbors (set (mapcat neighbor-coords (:coordinates part))))))
+      (assoc :neighbors (set (mapcat core/*neighbor-coords (:coordinates part))))))
 
 (defn read-input-optimized [input]
   (map optimize-part (read-input input)))

@@ -32,3 +32,21 @@
 (defn light-magenta [text] (color-text 95 text))
 (defn light-cyan [text] (color-text 96 text))
 (defn white [text] (color-text 97 text))
+
+(def *neighbor-deltas [[-1 -1] [-1 0] [-1 1]
+                       [0 -1] [0 1]
+                       [1 -1] [1 0] [1 1]])
+
+(defn *neighbor-coords [[row col]]
+  (for [[dr dc] *neighbor-deltas]
+    [(+ row dr) (+ col dc)]))
+
+(def +neighbor-deltas [[-1 0]
+                       [0 -1] [0 1]
+                       [1 0]])
+
+(defn +neighbor-coords [[row col]]
+  (for [[dr dc] +neighbor-deltas]
+    [(+ row dr) (+ col dc)]))
+
+

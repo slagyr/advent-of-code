@@ -1,10 +1,11 @@
 {:paths   ["src"]
  :deps    {
            ;com.cleancoders.c3kit/apron       {:mvn/version "1.0.8"}
-           org.clojure/clojure {:mvn/version "1.11.1"}
+           org.clojure/clojure            {:mvn/version "1.11.1"}
+           org.clojure/math.combinatorics {:mvn/version "0.1.6"}
            }
  :aliases {
            :test {:extra-deps {speclj/speclj {:mvn/version "3.4.3"}}}
-           :spec {:main-opts ["-m" "speclj.main" "-c"] }
+           :spec {:main-opts ["-m" "speclj.main" "-c"]}
            :new  {:main-opts ["-m" "aoc.new"]}
            }}
